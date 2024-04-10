@@ -8,6 +8,42 @@ class Header
 {
     private $senderIdentity;
     private $senderSharedSecret;
+    private $fromIdentity;
+    private $toIdentity;
+    private $userAgent;
+
+    public function getFromIdentity()
+    {
+        return $this->fromIdentity;
+    }
+
+    public function setFromIdentity($fromIdentity): self
+    {
+        $this->fromIdentity = $fromIdentity;
+        return $this;
+    }
+
+    public function getToIdentity()
+    {
+        return $this->toIdentity;
+    }
+
+    public function setToIdentity($toIdentity): self
+    {
+        $this->toIdentity = $toIdentity;
+        return $this;
+    }
+
+    public function getUserAgent()
+    {
+        return $this->userAgent;
+    }
+
+    public function setUserAgent($userAgent): self
+    {
+        $this->userAgent = $userAgent;
+        return $this;
+    }
 
     public function getSenderIdentity()
     {
@@ -41,10 +77,10 @@ class Header
     {
         $headerNode = $parentNode->addChild('Header');
 
-        $this->addNode($headerNode, 'From', 'Unknown');
-        $this->addNode($headerNode, 'To', 'Unknown');
+        $this->addNode($headerNode, 'From', $this->getFromIdentity() ?? 'Unknown');
+        $this->addNode($headerNode, 'To', $this->getToIdentity() ?? 'Unknown');
         $this->addNode($headerNode, 'Sender', $this->getSenderIdentity() ?? 'Unknown')
-            ->addChild('UserAgent', 'Unknown');
+            ->addChild('UserAgent', $this->getUserAgent() ?? 'Unknown');
     }
 
     private function addNode(\SimpleXMLElement $parentNode, string $nodeName, string $identity) : \SimpleXMLElement
@@ -52,7 +88,7 @@ class Header
         $node = $parentNode->addChild($nodeName);
 
         $credentialNode = $node->addChild('Credential');
-        $credentialNode->addAttribute('domain', '');
+        $credentialNode->addAttribute('domain', 'NetworkID');
 
         $credentialNode->addChild('Identity', $identity);
 
