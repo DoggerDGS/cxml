@@ -1,5 +1,5 @@
 # cxml
-A PHP library to handle cXML punchout orders
+A PHP library to handle cXML punchout orders.
 
 ## Install
 
