@@ -2,8 +2,6 @@
 
 namespace CXml\Models;
 
-use CXml\Models\Responses\ResponseInterface;
-
 class Header
 {
     private $senderIdentity;
@@ -79,16 +77,16 @@ class Header
 
         $this->addNode($headerNode, 'From', $this->getFromIdentity() ?? 'Unknown');
         $this->addNode($headerNode, 'To', $this->getToIdentity() ?? 'Unknown');
-        $this->addNode($headerNode, 'Sender', $this->getSenderIdentity() ?? 'Unknown')
+        $this->addNode($headerNode, 'Sender', $this->getSenderIdentity() ?? 'Unknown', 'AribaNetworkUserId')
             ->addChild('UserAgent', $this->getUserAgent() ?? 'Unknown');
     }
 
-    private function addNode(\SimpleXMLElement $parentNode, string $nodeName, string $identity) : \SimpleXMLElement
+    private function addNode(\SimpleXMLElement $parentNode, string $nodeName, string $identity, string $attributeValue = 'NetworkID') : \SimpleXMLElement
     {
         $node = $parentNode->addChild($nodeName);
 
         $credentialNode = $node->addChild('Credential');
-        $credentialNode->addAttribute('domain', 'NetworkID');
+        $credentialNode->addAttribute('domain', $attributeValue);
 
         $credentialNode->addChild('Identity', $identity);
 
