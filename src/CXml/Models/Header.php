@@ -67,6 +67,8 @@ class Header
 
     public function parse(\SimpleXMLElement $headerXml) : void
     {
+        $this->fromIdentity = (string)$headerXml->xpath('From/Credential/Identity')[0];
+        $this->toIdentity = (string)$headerXml->xpath('To/Credential/Identity')[0];
         $this->senderIdentity = (string)$headerXml->xpath('Sender/Credential/Identity')[0];
         $this->senderSharedSecret = (string)$headerXml->xpath('Sender/Credential/SharedSecret')[0];
     }
